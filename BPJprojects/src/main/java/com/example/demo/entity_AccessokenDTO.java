@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class AccessokenDTO {
+public class entity_AccessokenDTO {
 	private String client_id;
 	public String getClient_id() {
 		return client_id;

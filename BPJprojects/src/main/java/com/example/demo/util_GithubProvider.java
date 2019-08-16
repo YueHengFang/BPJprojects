@@ -12,9 +12,9 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 
 @Component
-public class GithubProvider {
+public class util_GithubProvider {
  
-	public String getAccessToken(AccessokenDTO ato){
+	public String getAccessToken(entity_AccessokenDTO ato){
  		MediaType mediatype
 	    = MediaType.get("application/json; charset=utf-8");
  	   OkHttpClient client = new OkHttpClient();
@@ -38,7 +38,7 @@ public class GithubProvider {
 	}
 
 	
-	public GithubUser getuser(String accesstoken)
+	public entity_GithubUser getuser(String accesstoken)
 	{
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
@@ -48,8 +48,7 @@ public class GithubProvider {
 		try {
 			response = (client.newCall(request).execute());
 			 String s=response.body().string();
- 			 System.out.println("----"+s+"-----"); 
-			 GithubUser Gu=JSON.parseObject(s,GithubUser.class);
+ 			 entity_GithubUser Gu=JSON.parseObject(s,entity_GithubUser.class);
  			  
 			  return Gu;
 		} catch (Exception e) {

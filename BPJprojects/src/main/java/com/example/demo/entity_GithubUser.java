@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class GithubUser {
+public class entity_GithubUser {
      private String login;
      
 	public String getLogin() {
