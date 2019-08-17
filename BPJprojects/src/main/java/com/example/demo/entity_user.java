@@ -15,12 +15,7 @@ public String getAccount_id() {
 public void setAccount_id(String account_id) {
 	this.account_id = account_id;
 }
-public String getName() {
-	return name;
-}
-public void setName(String name) {
-	this.name = name;
-}
+
 public String getToken() {
 	return token;
 }
@@ -40,7 +35,13 @@ public void setGmt_modify(Long gmt_modify) {
 	this.gmt_modify = gmt_modify;
 }
 private String account_id;
-  private String name;
+  public String getLogin() {
+	return login;
+}
+public void setLogin(String login) {
+	this.login = login;
+}
+private String login;
   private String token;
   private Long gmt_creat;
   private Long gmt_modify;

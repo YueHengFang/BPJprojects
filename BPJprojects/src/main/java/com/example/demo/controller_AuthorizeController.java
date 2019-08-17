@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.net.ssl.X509TrustManager;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.impl.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class controller_AuthorizeController {
 	 
 	
 	@RequestMapping("/callback")
-	public String callback(@RequestParam(name="code")String code,@RequestParam(name="state")String state,HttpServletRequest request)
+	public String callback(@RequestParam(name="code")String code,@RequestParam(name="state")String state,HttpServletRequest request,HttpServletResponse response)
 	{
 		 
 		entity_AccessokenDTO ADTO=new entity_AccessokenDTO();
@@ -58,13 +60,15 @@ public class controller_AuthorizeController {
  	       entity_user eu=new entity_user();
  	        eu.setId(UUID.randomUUID().toString());
  	 	    eu.setToken(acesstoken);
- 	 	    eu.setName(GU.getLogin());
+ 	 	    eu.setLogin(GU.getLogin());
  	 	    eu.setAccount_id(String.valueOf(GU.getId()));
  	 	    eu.setGmt_creat(System.currentTimeMillis());
  	 	    eu.setGmt_modify(eu.getGmt_creat());
- 	 	    dud.insertuser(eu);
+ 	 	    dud.insertuser(eu); 	
  	    	//登陆成功写cookie和session
+ 	 	    response.addCookie(new Cookie("id",eu.getId()));
  	    	request.getSession().setAttribute("login",GU);
+ 	    	
  	    }else
  	    {
  	    	//登陆失败重新登陆

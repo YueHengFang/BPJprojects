@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>Publish-Apple</title>
+<link rel="stylesheet" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" href="css/bootstarp-theme.min.css"/>
+<link rel="stylesheet" href="css/communty.css"/>
+<script src="js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Apple Community</span>
+      </button>
+      <a class="navbar-brand" href="#">Apple Community</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search Question">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+         <li class="dropdown" th:if="${session.login!=null}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.login.login}">I<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Message Centre</a></li>
+            <li><a href="#">Personal Data</a></li>
+            <li><a href="#">Exit Login</a></li>
+          </ul>
+        </li>
+        <li th:if="${session.login==null}"><a href="https://github.com/login/oauth/authorize?client_id=ae9db0ad005fe0e78ee4&redirect_uri=https://localhost:8080/BPJprojects/callback&scope=user&state=1">Sign</a></li>
+        
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+ <div class="container-fluid question_publish">
+  <div class="row">
+       <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+          <h2><span class="glyphicon glyphicon-plus"></span>Launch</h2>
+          <form action="/publish" method="post">
+          <div class="form-group">
+    			<label for="title">Question Title</label>
+    			<input type="email" class="form-control" id="title" name="title" placeholder="Question Title">
+  			</div>
+  			 <div class="form-group">
+    			<label for="title">Question Supplement</label>
+    			<textarea name="des" id="des" class="form-control" cols="38" rows="10"></textarea>
+   			</div>
+   			<div class="form-group">
+    			<label for="title">Add Tag</label>
+    			<input type="email" class="form-control" id="tag" name="tag" placeholder="Please enter Tag and use’,‘separate">   		
+    		</div>
+    		<button type="button" class="btn btn-success publish">Publish</button>
+          </form>         
+       </div>
+       <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+       <h3>Guidelines for Problem Initiation</h3>
+       Choose cash on delivery. When the order arrives, you can choose cash, POS card swipe, cheque to pay for the order, or use mobile phone to complete the payment of the order by scanning the order bar code on the package with the function of Jingdong APP mobile phone client [Sweep, Sweep].
+POS Machine Card Brushing.
+       </div>
+  </div>
+</div>
+</body>
+</html>
