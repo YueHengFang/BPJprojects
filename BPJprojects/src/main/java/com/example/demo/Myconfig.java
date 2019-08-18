@@ -11,10 +11,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class Myconfig  {
 
 	@Bean
-    public	interceptor_userintercepter iu()
+    public	interceptor_autointercepter iu()
     {
-		return new interceptor_userintercepter();
+		return new interceptor_autointercepter();
     }
+	@Bean
+	public interceptor_loginintercepter il()
+	{
+		return new interceptor_loginintercepter();
+	}
 	
     @Bean
 	public WebMvcConfigurer conf()
@@ -30,6 +35,7 @@ public class Myconfig  {
  		}
 		public void addInterceptors(InterceptorRegistry registry) {
 			registry.addInterceptor(iu()).addPathPatterns("/","/index");
+			registry.addInterceptor(il()).addPathPatterns("/publish");
 		}
 		
 	  };

@@ -54,8 +54,7 @@ public class controller_AuthorizeController {
 		ADTO.setClient_secret(clientsecret);
 		String acesstoken=gpr.getAccessToken(ADTO);
  	    entity_GithubUser GU=gpr.getuser(acesstoken); 
- 	
- 	    if(GU!=null)
+  	    if(GU!=null)
  	    {
  	       entity_user eu=new entity_user();
  	        eu.setId(UUID.randomUUID().toString());
@@ -64,10 +63,11 @@ public class controller_AuthorizeController {
  	 	    eu.setAccount_id(String.valueOf(GU.getId()));
  	 	    eu.setGmt_creat(System.currentTimeMillis());
  	 	    eu.setGmt_modify(eu.getGmt_creat());
+ 	 	    eu.setBio("");
  	 	    dud.insertuser(eu); 	
  	    	//登陆成功写cookie和session
  	 	    response.addCookie(new Cookie("id",eu.getId()));
- 	    	request.getSession().setAttribute("login",GU);
+ 	    	request.getSession().setAttribute("login",eu);
  	    	
  	    }else
  	    {
