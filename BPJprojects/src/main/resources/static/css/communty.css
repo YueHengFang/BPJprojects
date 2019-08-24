@@ -12,3 +12,9 @@ body
 	float:right;
 	margin-bottom:5px;
 }
+.waring
+{
+	text-align:center;
+	color:#f00;
+	font-size:18px;
+}

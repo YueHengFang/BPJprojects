@@ -28,13 +28,12 @@ public class Myconfig  {
 	  {
 		public void addViewControllers(ViewControllerRegistry registry)
 		{
-			registry.addViewController("/").setViewName("index");
-			registry.addViewController("/index").setViewName("index");
+			 
 			registry.addViewController("/publish").setViewName("publish");
 			
  		}
 		public void addInterceptors(InterceptorRegistry registry) {
-			registry.addInterceptor(iu()).addPathPatterns("/","/index");
+			registry.addInterceptor(iu()).addPathPatterns("/");
 			registry.addInterceptor(il()).addPathPatterns("/publish");
 		}
 		

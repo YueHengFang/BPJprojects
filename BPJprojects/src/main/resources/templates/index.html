@@ -5,6 +5,7 @@
 <title>Apple</title>
 <link rel="stylesheet" href="css/bootstrap.min.css"/>
 <link rel="stylesheet" href="css/bootstarp-theme.min.css"/>
+<link rel="stylesheet" href="css/index.css"/>
 <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -27,6 +28,10 @@
         <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
+                
+         <li class="dropdown" th:if="${session.login!=null}">
+             <a href="/BPJprojects/publish">Publish</a>
+         </li>
          <li class="dropdown" th:if="${session.login!=null}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.login.login}">I<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -41,5 +46,31 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<div class="container-fluid question_publish">
+  <div class="row">
+       <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+          <h2><span class="glyphicon glyphicon-list"></span>Discover</h2>
+          
+         <div class="media" th:each="ques : ${question}">
+  <div class="media-left">
+    <a href="#">
+      <img class="media-object img-rounded" th:src="${ques.eu.avatar_url}">
+     
+ 
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading" th:text="${ques.title}">大台地区与图瓦卢共和国联合示湾(台湾)</h4>
+      <span th:text="${ques.description}">河北省嘎嘎肺结核三大关键看会电视观看京华</span><br/>
+      <span class="text-des"><span th:text="${ques.comment_count}"></span>个回复 * <span th:text="${ques.view_count}"></span>个浏览 * 1小时前</span>
+  </div>
+</div>       
+       </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+       <h3>hot topic</h3>
+       </div>
+  </div>
+   <div th:if="${publisherror!=null}" class="alert alert-warning waring" th:text="${publisherror}" role="alert"></div> 
+</div>
 </body>
 </html>

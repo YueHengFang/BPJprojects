@@ -14,6 +14,7 @@ public class interceptor_autointercepter implements HandlerInterceptor{
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+ 		request.getSession().removeAttribute("error");
 	    Cookie[] cok=request.getCookies();
 	    if(cok!=null)
 	    {
@@ -40,12 +41,12 @@ public class interceptor_autointercepter implements HandlerInterceptor{
 			      
 			     
 		    }
-		    //代表未登录
+ 		    //代表未登录
  		    return true;
 	    }
 	    else
 	    {
-	    	//代表未登陆
+ 	    	//代表未登陆
 	    	return true;
 	    }
 	    

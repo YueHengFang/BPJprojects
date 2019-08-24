@@ -7,9 +7,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        select * from user
   </select>
   <insert id="insertuser">
-       insert into user values(#{id},#{account_id},#{login},#{token},#{gmt_creat},#{gmt_modify},#{bio})
+       insert into user values(#{id},#{login},#{token},#{gmt_creat},#{gmt_modify},#{bio},#{avatar_url})
   </insert>
   <select id="getfindbyuser" resultType="com.example.demo.entity_user">
-        select * from user where id=#{id};
+        select * from user where id=#{id}
   </select>
+  <delete id="deleteuser">
+        delete from user where id=#{id}
+  </delete>
 </mapper>

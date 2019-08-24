@@ -1,0 +1,21 @@
+.media-object
+{
+	boder-radius:20px;
+	width:40px;
+	height:40px;
+}
+.text-des
+{
+	font-size:12px;
+	font-weight:normal;
+	color:#999;
+}
+body
+{
+	background-color:#efefef;
+}
+.question_publish
+{
+	margin:45px;
+	background-color:#fff;
+}

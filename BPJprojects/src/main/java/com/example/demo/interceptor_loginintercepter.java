@@ -14,7 +14,7 @@ public class interceptor_loginintercepter implements HandlerInterceptor {
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		   Cookie[] cok=request.getCookies();
+  		   Cookie[] cok=request.getCookies();
 		    if(cok!=null)
 		    {
 		    	String id=null;
@@ -41,12 +41,12 @@ public class interceptor_loginintercepter implements HandlerInterceptor {
 				     
 			    }
 			    //代表未登录
-			    response.sendRedirect("/BPJprojects/");
+ 			    response.sendRedirect("/BPJprojects/");
 	 		    return false;
 		    }
 		    else
 		    {
-		    	//代表未登陆
+ 		    	//代表未登陆
 			    response.sendRedirect("/BPJprojects/");
 		    	return false;
 		    }

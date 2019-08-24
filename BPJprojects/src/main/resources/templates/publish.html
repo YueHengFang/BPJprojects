@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/bootstarp-theme.min.css"/>
 <link rel="stylesheet" href="css/communty.css"/>
 <script src="js/bootstrap.min.js" type="application/javascript"></script>
+ 
 </head>
 <body>
   <nav class="navbar navbar-default">
@@ -49,25 +50,27 @@
           <form action="/BPJprojects/submitpublish" method="post">
           <div class="form-group">
     			<label for="title">Question Title</label>
-    			<input type="text" class="form-control" id="title" name="title" placeholder="Question Title">
+    			<!-- required oninvalid="setCustomValidity('Please write in this field.')" -->
+    			<input type="text" class="form-control" th:value="${title}" id="title" name="title" pattern=".{10,100}" required oninvalid="setCustomValidity('Please write in this field.String lengths range from 10 to 100')" oninput="setCustomValidity('')"  placeholder="Question Title"/>
   			</div>
   			 <div class="form-group">
     			<label for="title">Question Supplement</label>
-    			<textarea name="des" id="des" class="form-control" cols="38" rows="10"></textarea>
+    			<textarea name="des" id="des" class="form-control" th:text="${des}" cols="38" rows="10"></textarea>
    			</div>
    			<div class="form-group">
     			<label for="title">Add Tag</label>
-    			<input type="text" class="form-control" id="tag" name="tag" placeholder="Please enter Tag and use’,‘separate">   		
+    			<input type="text" class="form-control" id="tag" name="tag" th:value="${tag}" placeholder="Please enter Tag and use’,‘separate" pattern=".{6,30}" required oninvalid="setCustomValidity('Please write in this field.String length range from 6 to 30')" oninput="setCustomValidity('')"/>   		
     		</div>
     		<button type="submit" class="btn btn-success publish">Publish</button>
-          </form>         
+          </form>  
        </div>
-       <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
        <h3>Guidelines for Problem Initiation</h3>
        Choose cash on delivery. When the order arrives, you can choose cash, POS card swipe, cheque to pay for the order, or use mobile phone to complete the payment of the order by scanning the order bar code on the package with the function of Jingdong APP mobile phone client [Sweep, Sweep].
 POS Machine Card Brushing.
        </div>
   </div>
+   <div th:if="${publisherror!=null}" class="alert alert-warning waring" th:text="${publisherror}" role="alert"></div> 
 </div>
 </body>
 </html>

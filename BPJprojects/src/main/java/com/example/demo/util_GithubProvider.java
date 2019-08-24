@@ -38,9 +38,9 @@ public class util_GithubProvider {
 	}
 
 	
-	public entity_GithubUser getuser(String accesstoken)
+	public entity_user getuser(String accesstoken)
 	{
-		OkHttpClient client = new OkHttpClient();
+ 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
 			      .url("https://api.github.com/user?access_token="+accesstoken)
 			      .build();
@@ -48,9 +48,9 @@ public class util_GithubProvider {
 		try {
 			response = (client.newCall(request).execute());
 			 String s=response.body().string();
- 			 entity_GithubUser Gu=JSON.parseObject(s,entity_GithubUser.class);
+			 entity_user eu=JSON.parseObject(s,entity_user.class);
  			  
-			  return Gu;
+			  return eu;
 		} catch (Exception e) {
  			e.printStackTrace();
  			return null;
