@@ -5,10 +5,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.example.demo.dao_questiondao">
    
   <insert id="insertquestion">
-       insert into question values(#{id},#{title},#{description},#{gmt_create},#{gmt_modify},#{createid},#{comment_count},#{view_count},#{like_count},#{tag})
+       insert into question values(#{id},#{title},#{description},#{gmt_create},#{gmt_modify},#{createrid},#{comment_count},#{view_count},#{like_count},#{tag})
   </insert>
   <select id="equestion" resultType="com.example.demo.entity_question">
-      select * from question
+      select * from question limit #{page},#{size}
+  </select>
+  <select id="count" resultType="int">
+      select count(1) from question
+  </select>
+  <select id="countbyuserid" resultType="int">
+     select count(1) from question where createrid=#{userid}
+  </select>
+  <select id="getbyid" resultType="com.example.demo.entity_question">
+      select * from question where id=#{id};
   </select>
  
 </mapper>

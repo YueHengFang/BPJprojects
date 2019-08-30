@@ -9,7 +9,7 @@ public class entity_questionDTO {
     private String description;
     private Long gmt_create;
     private Long gmt_modify;
-    private String createid;
+    private String createrid;
     private int comment_count;
     private int view_count;
     private int like_count;

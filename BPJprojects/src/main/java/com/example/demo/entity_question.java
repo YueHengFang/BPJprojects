@@ -15,4 +15,5 @@ public class entity_question {
      private int view_count;
      private int like_count;
      private String tag;
+     
   }

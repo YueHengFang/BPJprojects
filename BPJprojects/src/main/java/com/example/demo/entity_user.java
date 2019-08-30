@@ -13,5 +13,4 @@ private Long gmt_modify;
 private String bio;
 private String avatar_url;
 
-
 }
