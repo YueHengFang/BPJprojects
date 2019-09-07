@@ -1,0 +1,42 @@
+.marigins{
+   margin:0px;
+   padding:0px;
+} 
+.comment{
+    margin-top:25px;
+    margin-bottom:25px;
+}
+.btn-reply
+{
+	float:right;
+	margin-bottom:10px;
+}
+.media-heading
+{
+	margin-top:10px;
+}
+.conmargin
+{
+	margin-bottom:5px;
+	 
+}
+ 
+.iconmenu
+{
+	color:#999;
+	margin-top:10px;
+}
+.iconmenu .icon{
+		margin-right:10px;
+	    font-size:15px;
+	    cursor:pointer;
+}
+.iconmenu .icon:hover{
+	color:#499ef3
+}
+.cont{
+	margin-bottom:10px;
+	padding-bottom:5px;
+	padding-top:2px;
+	border-bottom:1px solid #eee;
+}

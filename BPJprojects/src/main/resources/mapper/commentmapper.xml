@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao_commentdao">
+  <insert id="insertcomment">
+       insert into comment values(#{id},#{commentparentid},#{type},#{commentuserid},#{gmt_create},#{gmt_modify},#{like_count},#{context})
+  </insert>
+  <select id="commentbyid">
+        select * from comment where id=#{id}
+  </select>
+  <select id="getcommentbyquestionid" resultType="com.example.demo.entity_comment">
+       select * from comment where commentparentid=#{questionid}
+  </select>
+  
+</mapper>

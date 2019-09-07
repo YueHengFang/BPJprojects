@@ -3,33 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <title th:text="${question.title}">Apple</title>
-<link rel="stylesheet" href="https://localhost:8080/BPJprojects/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://localhost:8080/BPJprojects/css/bootstarp-theme.min.css"/>
-<link rel="stylesheet" href="https://localhost:8080/BPJprojects/css/index.css"/>
-<link rel="stylesheet" href="https://localhost:8080/BPJprojects/css/Profile.css"/>
- <script src="https://localhost:8080/BPJprojects/js/jquery-3.4.1.min.js" type="application/javascript"></script>
-<script src="https://localhost:8080/BPJprojects/js/bootstrap.min.js" type="application/javascript"></script>
+<link rel="stylesheet"
+	href="https://localhost:8080/BPJprojects/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://localhost:8080/BPJprojects/css/bootstarp-theme.min.css" />
+<link rel="stylesheet"
+	href="https://localhost:8080/BPJprojects/css/index.css" />
+<link rel="stylesheet"
+	href="https://localhost:8080/BPJprojects/css/Profile.css" />
+<link rel="stylesheet"
+	href="https://localhost:8080/BPJprojects/css/question.css" />
+<script src="https://localhost:8080/BPJprojects/js/jquery-3.4.1.min.js"
+	type="application/javascript"></script>
+<script src="https://localhost:8080/BPJprojects/js/bootstrap.min.js"
+	type="application/javascript"></script>
+<script src="https://localhost:8080/BPJprojects/js/commit.js">
+
+</script>
 
 </head>
 <body>
-<div th:insert="~{navgition :: nav}"></div>
-<div class="container-fluid question_publish">
-  <div class="row profile">
-       <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-          <h2><span th:text="${question.title}"></span></h2>
-            <span class="text-des"><span th:text="${ques.comment_count}"></span>个回复 * <span th:text="${ques.view_count}"></span>个浏览 * 发布于<span th:text="${#dates.format(ques.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span></span>  
-       </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-               <h3>promoter</h3>
-             </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h3>related questions</h3>
-              </div>
-       </div>
-  </div>
-   <div th:if="${publisherror!=null}" class="alert alert-warning waring" th:text="${publisherror}" role="alert"></div> 
-</div>
- 
+	<div th:insert="~{navgition :: nav}"></div>
+	<div class="container-fluid question_publish">
+		<div class="row profile">
+			<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h2>
+						<span th:text="${question.title}"></span>
+					</h2>
+					<span class="text-des"> 作者:<span
+						th:text="${question.eu.login}"></span> 发布时间:<span
+						th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span>
+						阅读数:<span th:text="${question.view_count}"></span>
+					</span>
+					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+					<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 conmargin"
+						th:text="${question.description}"></div>
+											     <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+						
+					<a th:href="@{'/publish/'+${question.id}}"
+						class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comenu"
+						th:if="${session.login!=null &&  session.login.id==question.createrid}">
+						<span class="glyphicon glyphicon-pencil"></span>edit</a>
+				</div>
+			    <h4 class="">
+			       <span th:text="${question.comment_count}"></span><span>&nbsp;&nbsp;Comments</span>
+			    </h4>
+			      <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marigins"/>
+ 				
+ 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cont" th:each="co:${comment}">
+ 				  <div class="media">
+						<div class="media-left">
+							<a href="#"> <img class="media-object img-rounded"
+								th:src="${co.eu.avatar_url}">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<span th:text="${co.eu.login}"></span>
+							</h4>
+							<div th:text="${co.context}"></div>
+							<div class="iconmenu">
+							   <span class="glyphicon glyphicon-thumbs-up icon"></span>
+							   <span class="glyphicon glyphicon-comment icon"></span>
+							   <span class="pull-right" th:text="${#dates.format(co.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span>
+							</div>				
+						</div>
+					</div> 
+				</div>
+				<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+					<div class="media">
+						<div class="media-left">
+							<a href="#"> <img class="media-object img-rounded"
+								th:src="${question.eu.avatar_url}">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+							  <span th:text="${question.eu.login}"></span>  
+							</h4>
+
+						</div>
+					</div>
+					<input type="hidden" id="questionid" th:value="${question.id}"/>
+					<textarea class="form-control comment" rows="9" id="comment_content"></textarea>
+					 <button type="button" class="btn btn-success btn-reply" onclick="reply()">Reply</button>  
+					
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h3>promoter</h3>
+					<div class="media">
+						<div class="media-left">
+							<a href="#"> <img class="media-object img-circle"
+								th:src="${question.eu.avatar_url}">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<span th:text="${question.eu.login}"></span>
+							</h4>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h3>related questions</h3>
+				</div>
+			</div>
+		</div>
+		<div th:if="${publisherror!=null}" class="alert alert-warning waring"
+			th:text="${publisherror}" role="alert"></div>
+	</div>
+
 </body>
 </html>

@@ -3,66 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <title>Apple</title>
-<link rel="stylesheet" href="css/bootstrap.min.css"/>
-<link rel="stylesheet" href="css/bootstarp-theme.min.css"/>
-<link rel="stylesheet" href="css/index.css"/>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstarp-theme.min.css" />
+<link rel="stylesheet" href="css/index.css" />
 <script src="js/jquery-3.4.1.min.js" type="application/javascript"></script>
 <script src="js/bootstrap.min.js" type="application/javascript"></script>
-
 </head>
+<script type="application/javascript">
+     window.onload=function()
+     {
+    	 var closeable=window.localStorage.getItem("closable");
+    	 if(closeable=="true")
+    	 {
+    	     window.close();
+    	     window.localStorage.removeItem("closeable");
+    	 }
+     }
+</script>
 <body>
-<div th:insert="~{navgition :: nav}"></div>
-<div class="container-fluid question_publish">
-  <div class="row">
-       <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-          <h2><span class="glyphicon glyphicon-list"></span>Discover</h2>
-          
-         <div class="media"  th:each="ques : ${Pagination.eq}">
-  <div class="media-left">
-    <a href="#">
-      <img class="media-object img-rounded" th:src="${ques.eu.avatar_url}">
-     
- 
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">
-    <a th:href="@{'question/'+${ques.id}}" th:text="${ques.title}"></a>
-    </h4>
-      <span th:text="${ques.description}">河北省嘎嘎肺结核三大关键看会电视观看京华</span><br/>
-      <span class="text-des"><span th:text="${ques.comment_count}"></span>个回复 * <span th:text="${ques.view_count}"></span>个浏览 * 发布于<span th:text="${#dates.format(ques.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span></span>
-  </div>
-</div>   
- <nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li>
-      
-      <a th:href="@{'?page=1'}" aria-label="Previous" th:if="${Pagination.showFirstPage}" >
-        <span aria-hidden="true">&lt;&lt;</span>
-      </a>
-       <a th:href="@{'?page='+${Pagination.page-1}}" aria-label="Next" th:if=${Pagination.showPrevious}>
-        <span aria-hidden="true">&lt;</span>
-      </a>
-    </li>
-       <li th:each="page : ${Pagination.pages}" th:class="${Pagination.page==page}? 'active' : ''"><a th:href="@{'?page='+${page}}" th:text="${page}"></a></li> 
-    
-    <li>
-     <a th:href="@{'?page='+${Pagination.page+1}}" aria-label="Next" th:if="${Pagination.showNext}">
-        <span aria-hidden="true">&gt;</span>
-      </a>
-       <a th:href="@{'?page='+${Pagination.countpage}}" aria-label="Next"  th:if="${Pagination.showEndPage}"><!-- -->
-        <span aria-hidden="true">&gt;&gt;</span>
-      </a>
-    </li>
-  </ul>
-</nav>    
-       </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-       <h3>hot topic</h3>
-       </div>
-  </div>
-   <div th:if="${publisherror!=null}" class="alert alert-warning waring" th:text="${publisherror}" role="alert"></div> 
-</div>
- 
+	<div th:insert="~{navgition :: nav}"></div>
+	<div class="container-fluid question_publish">
+		<div class="row">
+			<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+				<h2>
+					<span class="glyphicon glyphicon-list"></span>Discover
+				</h2>
+
+				<div class="media" th:each="ques : ${Pagination.eq}">
+					<div class="media-left">
+						<a href="#"> <img class="media-object img-rounded"
+							th:src="${ques.eu.avatar_url}">
+
+
+						</a>
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading">
+							<a th:href="@{'question/'+${ques.id}}" th:text="${ques.title}"></a>
+						</h4>
+						<span th:text="${ques.description}">河北省嘎嘎肺结核三大关键看会电视观看京华</span><br />
+						<span class="text-des"><span
+							th:text="${ques.comment_count}"></span>个回复 * <span
+							th:text="${ques.view_count}"></span>个浏览 * 发布于<span
+							th:text="${#dates.format(ques.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span></span>
+					</div>
+				</div>
+				<nav aria-label="Page navigation">
+					<ul class="pagination">
+						<li><a th:href="@{'?page=1'}" aria-label="Previous"
+							th:if="${Pagination.showFirstPage}"> <span
+								aria-hidden="true">&lt;&lt;</span>
+						</a> <a th:href="@{'?page='+${Pagination.page-1}}" aria-label="Next"
+							th:if=${Pagination.showPrevious}> <span aria-hidden="true">&lt;</span>
+						</a></li>
+						<li th:each="page : ${Pagination.pages}"
+							th:class="${Pagination.page==page}? 'active' : ''"><a
+							th:href="@{'?page='+${page}}" th:text="${page}"></a></li>
+
+						<li><a th:href="@{'?page='+${Pagination.page+1}}"
+							aria-label="Next" th:if="${Pagination.showNext}"> <span
+								aria-hidden="true">&gt;</span>
+						</a> <a th:href="@{'?page='+${Pagination.countpage}}"
+							aria-label="Next" th:if="${Pagination.showEndPage}">
+								<!-- --> <span aria-hidden="true">&gt;&gt;</span>
+						</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+				<h3>hot topic</h3>
+			</div>
+		</div>
+		<div th:if="${publisherror!=null}" class="alert alert-warning waring"
+			th:text="${publisherror}" role="alert"></div>
+	</div>
+
 </body>
 </html>

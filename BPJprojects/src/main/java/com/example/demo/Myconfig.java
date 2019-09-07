@@ -37,6 +37,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 			registry.addInterceptor(iu()).addPathPatterns("/");
 			registry.addInterceptor(il()).addPathPatterns("/publish");
 			registry.addInterceptor(il()).addPathPatterns("/profile/question");
+			//registry.addInterceptor(il()).addPathPatterns("/comment");
 		}
 		
 	  };

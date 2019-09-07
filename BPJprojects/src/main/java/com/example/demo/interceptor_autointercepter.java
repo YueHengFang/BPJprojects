@@ -14,8 +14,7 @@ public class interceptor_autointercepter implements HandlerInterceptor{
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
- 		request.getSession().removeAttribute("error");
-	    Cookie[] cok=request.getCookies();
+ 	    Cookie[] cok=request.getCookies();
 	    if(cok!=null)
 	    {
 	    	String id=null;

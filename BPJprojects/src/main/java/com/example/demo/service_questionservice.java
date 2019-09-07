@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class service_questionservice {
@@ -96,9 +97,44 @@ public class service_questionservice {
 	{
 		 entity_question eq=dqd.getbyid(id);
 		 entity_questionDTO eqd=new entity_questionDTO(); 
-		 BeanUtils.copyProperties(eq, eqd);
+ 		 if(eq==null)
+		 {
+ 		      throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);	         
+		 }else
+		 {
+			 BeanUtils.copyProperties(eq, eqd);
+			 entity_user eu=dud.getfindbyuser(eqd.getCreaterid());
+			 eqd.setEu(eu);
+		 }
+		 
 		 return eqd;
 	}
-	  
-
+	
+	public void Update(entity_question eq,Model model)
+	{
+		eq.setGmt_modify(System.currentTimeMillis());
+		int i=dqd.update(eq);
+		if(i>0)
+		{
+			
+		}else
+		{
+			model.addAttribute("publisherror","Update Error");
+		}
+		
+	}
+   
+	 public void viewcount(String id)
+	 {
+ 	       entity_question eq=dqd.getbyid(id);
+	       if(eq==null)
+			 {
+ 			      throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);	         
+			 }else
+			 {
+				 eq.setView_count(eq.getView_count()+1);
+				 dqd.countaddview(eq.getView_count(),id);
+ 			 }
+  	       
+	 }
 }

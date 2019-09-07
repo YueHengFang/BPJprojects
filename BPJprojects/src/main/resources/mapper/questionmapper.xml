@@ -19,5 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="getbyid" resultType="com.example.demo.entity_question">
       select * from question where id=#{id};
   </select>
+  <update id="update">
+      update question set title=#{title},description=#{description},gmt_modify=#{gmt_modify},tag=#{tag} where id=#{id}
+  </update>
+  <update id="countaddview">
+      update question set view_count=#{viewcount} where id=#{id}
+  </update>
+  <update id="countaddcomment">
+      update question set comment_count=#{commentcount} where id=#{id}
+  </update>
  
 </mapper>
