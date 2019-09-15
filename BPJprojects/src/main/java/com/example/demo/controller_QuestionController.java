@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class controller_QuestionController {
@@ -23,10 +24,15 @@ public class controller_QuestionController {
      {
            sqs.viewcount(id);
             entity_questionDTO eqd=sqs.getquestionshow(id);
+          	 model.addAttribute("question",eqd);
+            List<entity_questionDTO> eqsd=sqs.gettagquestion(eqd);
            List<entity_commentDTO> ec=scs.getcommentbyquestion(id);
-         
+          
             model.addAttribute("comment",ec);
-       	 model.addAttribute("question",eqd);
+       	 model.addAttribute("retag",eqsd);
+        	 
       	 return "question";
      }
+   
+     
 }

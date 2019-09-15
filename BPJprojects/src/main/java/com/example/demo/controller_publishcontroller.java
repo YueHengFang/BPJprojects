@@ -22,16 +22,24 @@ public class controller_publishcontroller {
 	@Autowired
 	private service_questionservice sqs;
 	
+	@Autowired
+	private service_TagService sts;
+	
+	
+	
 	
 	@RequestMapping("/publish/{id}")
 	public String edit(@PathVariable(name="id")String id,Model model)
 	{   
+		 System.out.println(1218213781);
  		entity_questionDTO eq=sqs.getquestionshow(id);
  	     
  		 model.addAttribute("title",eq.getTitle());
          model.addAttribute("des",eq.getDescription());
       	 model.addAttribute("tag",eq.getTag());
       	 model.addAttribute("id",id);
+      	
+         model.addAttribute("tags",sts.getTag());
 		return "publish";
 	}
 	
@@ -39,11 +47,12 @@ public class controller_publishcontroller {
     @PostMapping("/submitpublish")
     public String publish(@RequestParam("title")String title,@RequestParam("des")String des,@RequestParam("tag")String tag,@RequestParam("id")String id,HttpServletRequest hsr,Model model)
     {
-       try {
+        try {
     	  model.addAttribute("title",title);
  
           model.addAttribute("des",des);
        	model.addAttribute("tag",tag);
+ 
         	
       	entity_question eq=new entity_question();
  

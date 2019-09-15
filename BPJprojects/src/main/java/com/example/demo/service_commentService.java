@@ -26,31 +26,39 @@ public class service_commentService {
 	@Transactional
 	public void insert(entity_comment ec)
 	{
-		if(ec.getCommentparentid()==null)
-		{
-			  throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);
-		}
-		if(ec.getType()==0)
-		{
-			 throw new exption_404Excption(exption_404ExceptionErrorCode.SYSTEM_ERROR);
-		}
- 		if(ec.getType()==1)
-		{
-	         entity_comment ecs=dcd.commentbyid(ec.getCommentparentid());
-	         if(ecs==null)
-	         {
-	             throw new exption_404Excption(exption_404ExceptionErrorCode.COMMENT_NOT_FOUND);	 
-	         }
-		}else
-		{
-			  entity_question eq=dqd.getbyid(ec.getCommentparentid());
-			  if(eq==null)
-			  {
+	  try {
+		  if(ec.getCommentparentid()==null)
+			{
 				  throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);
-			  }
-			  dqd.countaddcomment(eq.getComment_count()+1,eq.getId());
-		}
-        dcd.insertcomment(ec);
+			}
+			if(ec.getType()==0)
+			{
+				 throw new exption_404Excption(exption_404ExceptionErrorCode.SYSTEM_ERROR);
+			}
+	 		if(ec.getType()==1)
+			{
+ 		         entity_comment ecs=dcd.commentbyid(ec.getCommentparentid());
+ 		     
+ 	 	         if(ecs==null)
+		         {
+		             throw new exption_404Excption(exption_404ExceptionErrorCode.COMMENT_NOT_FOUND);	 
+		         }
+  	 	        dcd.countaddcomment(ecs.getCommentcount()+1, ecs.getId());
+ 			}else
+			{
+				  entity_question eq=dqd.getbyid(ec.getCommentparentid());
+				  if(eq==null)
+				  {
+					  throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);
+				  }
+				  dqd.countaddcomment(eq.getComment_count()+1,eq.getId());
+			}
+ 	        dcd.insertcomment(ec);
+	  }catch(Exception ex)
+	  {
+		  System.out.println(ex.getMessage());
+	  }
+ 		
              
 	}
 	
@@ -87,6 +95,34 @@ public class service_commentService {
 		
 		return s;
 		
+	}
+	 
+	public List<entity_commentDTO> getsecondcomment(String parentid)
+	{
+	  List<entity_comment> ec=dcd.getsecondcomment(parentid);
+	  List<entity_user> eus=new ArrayList<entity_user>();
+	  if(ec.size()==0)
+	  {
+		  return new ArrayList();
+	  }
+		List<String> Commentuserid=ec.stream().map(entity_comment -> entity_comment.getCommentuserid()).collect(Collectors.toList());
+	 for(String userid:Commentuserid)
+	 {
+		 eus.add(dud.getfindbyuser(userid));
+	 }
+		Map<String,entity_user> mapuser=new HashMap<String,entity_user>();
+		for(int i=0;i<Commentuserid.size();i++)
+		{
+			mapuser.put(Commentuserid.get(i),eus.get(i));
+		}
+		List<entity_commentDTO> s=ec.stream().map(entity_comment -> {
+			entity_commentDTO ecd=new entity_commentDTO();
+			BeanUtils.copyProperties(entity_comment, ecd);
+			ecd.setEu(mapuser.get(entity_comment.getCommentuserid()));
+			return ecd;
+		}).collect(Collectors.toList());		
+		return s;
+	  //return null;
 	}
 	
 

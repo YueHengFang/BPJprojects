@@ -12,5 +12,7 @@ public class entity_commentDTO {
 	private Long gmt_modify;
 	private Integer like_count;
 	private String context;
+	private Integer commentcount;
 	private entity_user eu;
+
 }

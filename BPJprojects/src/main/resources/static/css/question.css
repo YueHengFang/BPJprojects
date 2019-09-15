@@ -40,3 +40,40 @@
 	padding-top:2px;
 	border-bottom:1px solid #eee;
 }
+.editmove{
+	padding:0px 0px;
+	margin:0px;
+}
+.active{
+  color:#499ef3;
+} 
+.secondcomment{
+	margin-top:20px;
+		border-bottom:1px solid #eee;
+	
+}
+.cop{
+	border:8px solid #eee;
+}
+.committhis
+{
+	margin:10px 0px;
+}
+.commitsubmits
+{
+	margin-top:20px;
+}
+.commitsbutton
+{
+	margin:10px 0px;
+}
+.tagblog
+{
+	margin-right:10px;
+}
+.requestion
+{
+	list-style:none;
+	text-decoration:none;
+	padding-left:0px;
+}

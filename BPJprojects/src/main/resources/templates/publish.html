@@ -13,6 +13,8 @@
 	type="application/javascript"></script>
 <script src="https://localhost:8080/BPJprojects/js/bootstrap.min.js"
 	type="application/javascript"></script>
+<script src="https://localhost:8080/BPJprojects/js/publish.js"
+	type="application/javascript"></script>
 
 </head>
 <body>
@@ -44,8 +46,122 @@
 							class="form-control" id="tag" name="tag" th:value="${tag}"
 							placeholder="Please enter Tag and use’,‘separate"
 							pattern=".{6,30}" required
-							oninvalid="setCustomValidity('Please write in this field.String length range from 6 to 30')"
-							oninput="setCustomValidity('')" />
+							oninvalid="setCustomValidity('Please write in this field,String length range from 6 to 30')"
+							oninput="setCustomValidity('')" onfocus="showselectTag()" />
+
+						<div class="taglike">
+
+							<div>
+
+								<!-- Nav tabs -->
+							  	<ul role="tablist" class="nav nav-tabs">
+									<li role="presentation" class="active"><a href="#home"
+										aria-controls="home" role="tab" data-toggle="tab">country</a></li>
+									<li role="presentation"><a href="#profile" data-toggle="tab" aria-controls="profile">topic</a></li>  
+									<li role="presentation"><a href="#messages"
+										aria-controls="messages" role="tab" data-toggle="tab">content</a></li>
+									<li role="presentation"><a href="#political"
+										aria-controls="settings" role="tab" data-toggle="tab">supplement</a></li>
+								</ul>   
+		 
+								<!-- Tab panes -->
+							   <div class="tab-content">
+									<div role="tabpanel" class="tab-pane fade in active tabs1"
+										id="home">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs1a"
+											th:if="${tagt.Categoryname=='country'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span></span>
+
+
+										</span>
+
+	</div>
+
+
+										
+								
+									<div role="tabpanel" class="tab-pane fade in tabs2"
+										id="profile">
+										<span th:each="tagt:${tags}">
+													  <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='topic'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a th:href="${'#'+tagt.valueTags[stat.index]}" data-toggle="tab"><span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span></a></span>
+
+                                         
+										</span>
+				 
+									</div>
+									<!-- <span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span> -->
+									<div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="political">
+									       <span>123456789</span>
+									  </div>
+									  </div>
+									
+					 <!-- 	<div th:each="tagt:${tags}">
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="political">	
+									  <span th:each="tagt:${tags}">
+													  <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='political'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span></span>
+
+                                         
+										</span>			
+									</div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="legal">				
+									</div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="military">				
+									</div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="Technology">				
+									</div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="society">				
+									</div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="economic">				
+									</div>
+									<div role="tabpanel" class="tab-pane fade in tabs3"
+									  id="entertainment">				
+									</div>
+								</div>   --> 
+									
+
+
+								</div>
+								
+                             								
+								
+
+							</div>
+						</div> 
+						<!--   -->
+<!--   <div class="tab-content">
+  <a href="#home" data-toggle="tab">a</a>
+    <div role="tabpanel" class="tab-pane" id="home"><a href="#messages" data-toggle="tab">a</a></div>
+    <div role="tabpanel" class="tab-pane" id="profile">b</div>
+    <div role="tabpanel" class="tab-pane" id="messages">c</div>
+    <div role="tabpanel" class="tab-pane" id="settings">d</div>
+  </div>  -->
+						
+						
+						
 					</div>
 					<button type="submit" class="btn btn-success publish">Publish</button>
 				</form>

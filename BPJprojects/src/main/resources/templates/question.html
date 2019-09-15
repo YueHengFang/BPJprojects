@@ -18,7 +18,7 @@
 <script src="https://localhost:8080/BPJprojects/js/bootstrap.min.js"
 	type="application/javascript"></script>
 <script src="https://localhost:8080/BPJprojects/js/commit.js">
-
+	
 </script>
 
 </head>
@@ -37,59 +37,99 @@
 						阅读数:<span th:text="${question.view_count}"></span>
 					</span>
 					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+
 					<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 conmargin"
 						th:text="${question.description}"></div>
-											     <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
-						
+					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    				        <span class="label label-info tagblog" th:each="tag:${question.tag.split(',')}">
+						    <span class="glyphicon glyphicon-tags"></span>
+						   
+						    <span class="label label-info" th:text="${tag}"></span>					     
+						</span> 
+						 
+					</div>
+					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
+					<!-- 	 -->
 					<a th:href="@{'/publish/'+${question.id}}"
-						class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comenu"
+						class="col-lg-12 col-md-12 col-sm-12 col-xs-12 editmove"
 						th:if="${session.login!=null &&  session.login.id==question.createrid}">
-						<span class="glyphicon glyphicon-pencil"></span>edit</a>
+						<span class="glyphicon glyphicon-pencil">edit</span>
+					</a>
 				</div>
-			    <h4 class="">
-			       <span th:text="${question.comment_count}"></span><span>&nbsp;&nbsp;Comments</span>
-			    </h4>
-			      <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marigins"/>
- 				
- 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cont" th:each="co:${comment}">
- 				  <div class="media">
-						<div class="media-left">
-							<a href="#"> <img class="media-object img-rounded"
-								th:src="${co.eu.avatar_url}">
-							</a>
-						</div>
-						<div class="media-body">
-							<h4 class="media-heading">
-								<span th:text="${co.eu.login}"></span>
-							</h4>
-							<div th:text="${co.context}"></div>
-							<div class="iconmenu">
-							   <span class="glyphicon glyphicon-thumbs-up icon"></span>
-							   <span class="glyphicon glyphicon-comment icon"></span>
-							   <span class="pull-right" th:text="${#dates.format(co.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span>
-							</div>				
-						</div>
-					</div> 
-				</div>
-				<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
-					<div class="media">
-						<div class="media-left">
-							<a href="#"> <img class="media-object img-rounded"
-								th:src="${question.eu.avatar_url}">
-							</a>
-						</div>
-						<div class="media-body">
-							<h4 class="media-heading">
-							  <span th:text="${question.eu.login}"></span>  
-							</h4>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
+					<h4>
+						<span th:text="${question.comment_count}"></span><span>&nbsp;&nbsp;Comments</span>
+					</h4>
+					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marigins" />
+
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cont"
+						th:each="co:${comment}">
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> <img class="media-object img-rounded"
+									th:src="${co.eu.avatar_url}">
+								</a>
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">
+									<span th:text="${co.eu.login}"></span>
+								</h4>
+								<div th:text="${co.context}"></div>
+								<div class="iconmenu">
+									<span class="glyphicon glyphicon-thumbs-up icon"></span> <span
+										class="glyphicon glyphicon-comment icon" th:data-id="${co.id}"
+										onclick="colcomments(this)" th:text="${co.commentcount}"></span>
+									<!--  -->
+									<span class="pull-right"
+										th:text="${#dates.format(co.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span>
+								</div>
+								<div
+									class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse cop"
+									th:id="${'comment-'+co.id}">
+									<!-- 二级评论 -->
+
+									<!-- <h1>12132</h1> -->
+
+
+									<div class="commitsubmits">
+										<input type="text" class="form-control"
+											th:id="${'input'+co.id}" placeholder="Welcome Comment." />
+										<button type="button"
+											class="btn btn-success pull-right commitsbutton"
+											th:data-id="${co.id}" onclick="secondcommit(this);">Commit</button>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<input type="hidden" id="questionid" th:value="${question.id}"/>
-					<textarea class="form-control comment" rows="9" id="comment_content"></textarea>
-					 <button type="button" class="btn btn-success btn-reply" onclick="reply()">Reply</button>  
-					
+				</div>
+
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+						id="comment_section">
+						<div class="media">
+							<div class="media-left">
+								<a href="#"> <img class="media-object img-rounded"
+									th:src="${question.eu.avatar_url}">
+								</a>
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">
+									<span th:text="${question.eu.login}"></span>
+								</h4>
+
+							</div>
+						</div>
+						<input type="hidden" id="questionid" th:value="${question.id}" />
+						<textarea class="form-control comment" rows="9"
+							id="comment_content"></textarea>
+						<button type="button" class="btn btn-success btn-reply"
+							onclick="reply()">Reply</button>
+
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
@@ -111,6 +151,12 @@
 				</div>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<h3>related questions</h3>
+					<ul>
+					  <li th:each="tags : ${retag}">
+					  <a th:href="@{'/question/'+${tags.id}}" th:text="${tags.title}" class="requestion"></a>
+					  </li>
+					</ul>
+					
 				</div>
 			</div>
 		</div>

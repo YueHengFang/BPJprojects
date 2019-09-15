@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        insert into question values(#{id},#{title},#{description},#{gmt_create},#{gmt_modify},#{createrid},#{comment_count},#{view_count},#{like_count},#{tag})
   </insert>
   <select id="equestion" resultType="com.example.demo.entity_question">
-      select * from question limit #{page},#{size}
+      select * from question order by gmt_modify DESC limit #{page},#{size}
   </select>
   <select id="count" resultType="int">
       select count(1) from question
@@ -28,5 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <update id="countaddcomment">
       update question set comment_count=#{commentcount} where id=#{id}
   </update>
+  <select id="tagquestion" resultType="com.example.demo.entity_question">
+       select * from question where id!=#{id} and tag regexp #{tag}
+   </select>
  
 </mapper>

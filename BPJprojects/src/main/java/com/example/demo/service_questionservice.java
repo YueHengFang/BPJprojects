@@ -1,8 +1,14 @@
 package com.example.demo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,7 +112,7 @@ public class service_questionservice {
 			 entity_user eu=dud.getfindbyuser(eqd.getCreaterid());
 			 eqd.setEu(eu);
 		 }
-		 
+		System.out.println(eqd.getTag()+"bilibilibiliblibli");
 		 return eqd;
 	}
 	
@@ -137,4 +143,47 @@ public class service_questionservice {
  			 }
   	       
 	 }
+	 
+	 public List<entity_questionDTO> gettagquestion(entity_questionDTO eq)
+	 {
+		 List<entity_questionDTO> eqds=null;
+		 if(eq.getTag()==null)
+		 {
+		   return new ArrayList<entity_questionDTO>();	 
+		 }else
+		 {
+			 String tags[]=StringUtils.split(eq.getTag(),",");
+ 			 String restag=Arrays.stream(tags).collect(Collectors.joining("|"));
+			 eq.setTag(restag);
+	 		List<entity_question> eqb= dqd.tagquestion(eq);
+	 		if(eqb==null||eqb.size()==0)
+	 		{
+	 			String tags2[]=StringUtils.split(eq.getTag(),"|");
+	 			 String restag2=Arrays.stream(tags2).collect(Collectors.joining(","));
+	 			eq.setTag(restag2);
+	 		}else
+	 		{
+	 			 String restag2=null;
+	 			for(entity_question qq:eqb)
+		 		 {
+		 			 String tags2[]=StringUtils.split(eq.getTag(),"|");
+		 			 restag2=Arrays.stream(tags2).collect(Collectors.joining(","));
+		 			 System.out.println(restag2);
+		 			 qq.setTag(restag2);
+		 			
+		 			 
+		 		 }
+	 			eq.setTag(restag2);
+	 		}
+	 		
+	 		 
+ 	 	     eqds=eqb.stream().map(entity_question -> {
+ 	 	         	 entity_questionDTO eqd=new entity_questionDTO();
+ 	 	         	 BeanUtils.copyProperties(entity_question,eqd);
+  	 	         	 return eqd;
+ 	 	     }).collect(Collectors.toList());
+		 }
+		 return eqds;
+	 }
+	 
 }

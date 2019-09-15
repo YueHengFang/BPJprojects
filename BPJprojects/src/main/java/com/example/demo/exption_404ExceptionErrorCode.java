@@ -5,7 +5,8 @@ public enum exption_404ExceptionErrorCode implements Iexption_404ExceptionErrorC
 	QUESTION_NOT_FOUND(2002,"The server could not find the specified page"),
 	COMMENT_NOT_FOUND(1999,"No responding subject has been selected, so no reply can be made"),
 	NOT_LOGIN(2004,"Sorry, you are not logged in and can't do anything"),
-    SYSTEM_ERROR(9999,"The system encountered an error")
+    SYSTEM_ERROR(9999,"The system encountered an error"),
+    COMMENT_NOT_EMPITY(2005,"The comment you entered cannot be empty")
 	;
 	
 	private String message;

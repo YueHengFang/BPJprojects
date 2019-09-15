@@ -18,3 +18,37 @@ body
 	color:#f00;
 	font-size:18px;
 }
+.taglike
+{
+	display:none;
+	margin-top:15px;
+}
+.tabs1
+{
+	cursor:pointer;
+	font-size:55px;
+	margin-top:10px;
+ 
+}
+.tabs2
+{
+	cursor:pointer;
+	font-size:55px;
+	margin-top:10px;
+}
+ 
+.tabs1a
+{
+	margin-right:20px;
+}
+.tabs2a
+{
+	margin-right:20px;
+}
+a{
+	text-decoration:none;
+}
+a:hover{
+	text-decoration:none;
+}
+ 
