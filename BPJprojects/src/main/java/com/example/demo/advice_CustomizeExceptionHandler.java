@@ -19,6 +19,7 @@ public class advice_CustomizeExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	Object handle(HttpServletRequest hsr,HttpServletResponse response,Throwable ew,Model model)
 	{
+		System.out.println(ew);
         entity_ResultDTO ert=new entity_ResultDTO();
 		String ContentType=hsr.getContentType();
 		

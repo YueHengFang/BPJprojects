@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -23,8 +24,11 @@ public class service_commentService {
 	@Autowired
 	private dao_userdao dud;
 	
+	@Autowired
+	private dao_notitydao dnd;
+	
 	@Transactional
-	public void insert(entity_comment ec)
+	public void insert(entity_comment ec,String username)
 	{
 	  try {
 		  if(ec.getCommentparentid()==null)
@@ -44,6 +48,17 @@ public class service_commentService {
 		             throw new exption_404Excption(exption_404ExceptionErrorCode.COMMENT_NOT_FOUND);	 
 		         }
   	 	        dcd.countaddcomment(ecs.getCommentcount()+1, ecs.getId());
+  	 	     entity_notity en=new entity_notity();
+  	 	     en.setGmt_create(System.currentTimeMillis());
+  	 	     en.setId(UUID.randomUUID().toString());
+  	 	     en.setStatus(enum_notifystatusenum.NOTREAD.getStatus());
+  	 	     en.setType(enum_notifyenum.REPLY_COMMIT.getType());
+  	 	     en.setNotifier(ec.getCommentuserid());
+  	 	     en.setReceiver(ecs.getCommentuserid());
+  	 	     en.setCommittypeid(ecs.getCommentparentid());
+  	 	     en.setNotifyname(username);
+  	 	     en.setCommttypename(ecs.getContext());
+  	 	     dnd.insertnotity(en);
  			}else
 			{
 				  entity_question eq=dqd.getbyid(ec.getCommentparentid());
@@ -51,6 +66,17 @@ public class service_commentService {
 				  {
 					  throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);
 				  }
+				  entity_notity en=new entity_notity();
+		  	 	     en.setGmt_create(System.currentTimeMillis());
+		  	 	     en.setId(UUID.randomUUID().toString());
+		  	 	     en.setStatus(enum_notifystatusenum.NOTREAD.getStatus());
+		  	 	     en.setType(enum_notifyenum.REPLY_QUESTION.getType());
+		  	 	     en.setNotifier(ec.getCommentuserid());
+		  	 	     en.setReceiver(eq.getCreaterid());
+		  	 	     en.setCommittypeid(eq.getId());
+		  	 	     en.setNotifyname(username);
+		  	 	     en.setCommttypename(eq.getTitle());
+		  	 	     dnd.insertnotity(en);
 				  dqd.countaddcomment(eq.getComment_count()+1,eq.getId());
 			}
  	        dcd.insertcomment(ec);

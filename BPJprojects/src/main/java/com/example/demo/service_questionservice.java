@@ -5,8 +5,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -22,9 +27,9 @@ public class service_questionservice {
 	@Autowired
 	private dao_userdao dud;
 	  
-	public entity_PaginationDTO eq(int page,int size)
+	public entity_PaginationDTO<entity_questionDTO> eq(int page,int size,String search)
 	{
-		int totalcount=dqd.count();
+		int totalcount=dqd.count(search);
 		int countpage=0;
 		  if(totalcount%size==0)
 		  {
@@ -43,26 +48,28 @@ public class service_questionservice {
 			  page=1;
 		  }
 		int pagec=size*(page-1);
-  		List<entity_question> eq=dqd.equestion(pagec,size);
+  		List<entity_question> eq=dqd.equestion(pagec,size,search);
 		List<entity_questionDTO> eqDTO=new ArrayList<entity_questionDTO>();
-         entity_PaginationDTO epo=new entity_PaginationDTO();
+         entity_PaginationDTO<entity_questionDTO> epo=new entity_PaginationDTO<entity_questionDTO>();
 		for(entity_question e:eq)
         {
          	entity_user eu=dud.getfindbyuser(e.getCreaterid());       
          	entity_questionDTO equestion=new entity_questionDTO();
         	BeanUtils.copyProperties(e,equestion);
+        	equestion.setBrief_introduction(countbrief_introduction(Util_HtmlUtil.delHTMLTag(equestion.getDescription())));
              equestion.setEu(eu);
               eqDTO.add(equestion);
              
         }
 		epo.setEq(eqDTO);
 		
+		 
 		epo.setPagination(countpage, page);
 		
    		return epo;
 	}
 	
-	public entity_PaginationDTO listthisuser(String userid,int page,int size)
+	public entity_PaginationDTO<entity_questionDTO> listthisuser(String userid,int page,int size)
 	{
 		int totalcount=dqd.countbyuserid(userid);
 		int countpage=0;
@@ -84,8 +91,8 @@ public class service_questionservice {
 		  }
 		int pagec=size*(page-1);
 		entity_user eu=dud.getfindbyuser(userid);
-		List<entity_question> eqe=dqd.equestion(pagec,size);
-        entity_PaginationDTO epo=new entity_PaginationDTO();
+		List<entity_question> eqe=dqd.equestion(pagec,size,null);
+        entity_PaginationDTO<entity_questionDTO> epo=new entity_PaginationDTO<entity_questionDTO>();
         List<entity_questionDTO> eqd=new ArrayList<entity_questionDTO>();
 		for(entity_question eqs:eqe)
 		{
@@ -112,10 +119,24 @@ public class service_questionservice {
 			 entity_user eu=dud.getfindbyuser(eqd.getCreaterid());
 			 eqd.setEu(eu);
 		 }
-		System.out.println(eqd.getTag()+"bilibilibiliblibli");
-		 return eqd;
+ 		 return eqd;
 	}
-	
+    public String countbrief_introduction(String context)
+    {
+       	if(context.length()<=1500)
+    	{
+    		return context;
+    	}
+    	else if(context.length()<=7500)
+    	{
+    		String conte=context.substring(0,context.length()/5)+"...";
+            return conte;		
+    	}else {
+      		String conte=context.substring(0,60)+"......";
+    		return conte;
+    	}
+    }
+    
 	public void Update(entity_question eq,Model model)
 	{
 		eq.setGmt_modify(System.currentTimeMillis());
@@ -130,17 +151,62 @@ public class service_questionservice {
 		
 	}
    
-	 public void viewcount(String id)
+	 public void viewcount(String id,HttpServletRequest hsr)
 	 {
  	       entity_question eq=dqd.getbyid(id);
-	       if(eq==null)
+ 	      ServletContext sc=null;
+ 	       if(eq==null)
 			 {
  			      throw new exption_404Excption(exption_404ExceptionErrorCode.QUESTION_NOT_FOUND);	         
 			 }else
 			 {
-				 eq.setView_count(eq.getView_count()+1);
-				 dqd.countaddview(eq.getView_count(),id);
+				sc=hsr.getServletContext();
+  				if(sc.getAttribute("read")==null)
+				{
+  					Map<String,List<String>> s=new HashMap<String,List<String>>();
+ 					List<String> li=new ArrayList<String>();
+ 					li.add(hsr.getSession().getId());
+ 					s.put(id,li);
+ 					sc.setAttribute("read",s);
+				}else
+				{
+					Map<String,List<String>>  ls=(Map<String,List<String>>)sc.getAttribute("read");
+					 List<String> readid=new ArrayList<String>(ls.keySet());
+ 					for(int i=0;i<readid.size();i++)
+ 					{
+   						List<String> sessionid=ls.get(id);
+ 						if(readid.get(i).equals(id))
+ 						{
+ 							 
+ 							for(int j=0;j<sessionid.size();j++)
+ 							{
+ 								 
+ 								if(sessionid.get(j).equals(hsr.getSession().getId()))
+ 								{
+ 								 
+ 									return;
+ 								}else if(j==sessionid.size()-1)
+ 								{
+  									sessionid.add(hsr.getSession().getId());
+ 									ls.put(id, sessionid);
+ 									i=readid.size();
+ 									break;
+ 								}
+ 							}
+ 						}else if(i==readid.size()-1)
+ 						{
+  							readid.add(hsr.getSession().getId());
+ 							ls.put(id,readid);
+ 							i=readid.size();
+ 						}
+ 					}
+					 
+ 					sc.setAttribute("read",ls);
+				}
+			    				
  			 }
+	         dqd.countaddview(eq.getView_count()+1,id);
+	         
   	       
 	 }
 	 
@@ -168,16 +234,13 @@ public class service_questionservice {
 		 		 {
 		 			 String tags2[]=StringUtils.split(eq.getTag(),"|");
 		 			 restag2=Arrays.stream(tags2).collect(Collectors.joining(","));
-		 			 System.out.println(restag2);
-		 			 qq.setTag(restag2);
+ 		 			 qq.setTag(restag2);
 		 			
 		 			 
 		 		 }
 	 			eq.setTag(restag2);
 	 		}
-	 		
-	 		 
- 	 	     eqds=eqb.stream().map(entity_question -> {
+	    eqds=eqb.stream().map(entity_question -> {
  	 	         	 entity_questionDTO eqd=new entity_questionDTO();
  	 	         	 BeanUtils.copyProperties(entity_question,eqd);
   	 	         	 return eqd;

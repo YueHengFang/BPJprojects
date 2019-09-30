@@ -2,6 +2,8 @@ package com.example.demo;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +22,10 @@ public class controller_QuestionController {
 	
 	
      @RequestMapping("/question/{id}")
-     public String question(@PathVariable(name="id")String id,Model model)
+     public String question(@PathVariable(name="id")String id,Model model,HttpServletRequest hsr)
      {
-           sqs.viewcount(id);
+    	 
+           sqs.viewcount(id,hsr);
             entity_questionDTO eqd=sqs.getquestionshow(id);
           	 model.addAttribute("question",eqd);
             List<entity_questionDTO> eqsd=sqs.gettagquestion(eqd);

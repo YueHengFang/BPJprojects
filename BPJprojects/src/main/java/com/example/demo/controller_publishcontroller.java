@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class controller_publishcontroller {
@@ -26,12 +27,19 @@ public class controller_publishcontroller {
 	private service_TagService sts;
 	
 	
+	@RequestMapping("/publish")
+	public String publish(Model model)
+	{
+ 		 
+     	 model.addAttribute("tags",sts.getTag());
+		return "publish";
+	}
+	
 	
 	
 	@RequestMapping("/publish/{id}")
 	public String edit(@PathVariable(name="id")String id,Model model)
 	{   
-		 System.out.println(1218213781);
  		entity_questionDTO eq=sqs.getquestionshow(id);
  	     
  		 model.addAttribute("title",eq.getTitle());
@@ -43,19 +51,33 @@ public class controller_publishcontroller {
 		return "publish";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/delorselcet")
+	public Object deleteselect(@RequestParam("taglist")String tags,@RequestParam("titlels")String titles)
+	{
+		 	   
+		return sts.returntag(tags,titles);
+		 
+	}
+	
 	 
     @PostMapping("/submitpublish")
     public String publish(@RequestParam("title")String title,@RequestParam("des")String des,@RequestParam("tag")String tag,@RequestParam("id")String id,HttpServletRequest hsr,Model model)
     {
         try {
     	  model.addAttribute("title",title);
- 
+    	  model.addAttribute("tags",sts.getTag());
           model.addAttribute("des",des);
        	model.addAttribute("tag",tag);
- 
-        	
+       	
+       	if(!sts.submittagpublish(tag))
+       	{
+       	  model.addAttribute("publisherror","There is a problem with your tag.");
+          return "publish";
+       	}
+  
+         	
       	entity_question eq=new entity_question();
- 
       	eq.setTitle(title);
     	eq.setDescription(des);
     	eq.setTag(tag);

@@ -11,6 +11,8 @@
 	href="https://localhost:8080/BPJprojects/css/index.css" />
 <link rel="stylesheet"
 	href="https://localhost:8080/BPJprojects/css/Profile.css" />
+	<link rel="stylesheet"
+	href="https://localhost:8080/BPJprojects/css/editormd.preview.css" />
 <link rel="stylesheet"
 	href="https://localhost:8080/BPJprojects/css/question.css" />
 <script src="https://localhost:8080/BPJprojects/js/jquery-3.4.1.min.js"
@@ -38,8 +40,8 @@
 					</span>
 					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
 
-					<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 conmargin"
-						th:text="${question.description}"></div>
+					  <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 conmargin mdiv"  th:utext="${question.description}" ></div>    
+
 					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" />
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     				        <span class="label label-info tagblog" th:each="tag:${question.tag.split(',')}">
@@ -63,7 +65,7 @@
 						<span th:text="${question.comment_count}"></span><span>&nbsp;&nbsp;Comments</span>
 					</h4>
 					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marigins" />
-
+                    <br/>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cont"
 						th:each="co:${comment}">
 						<div class="media">
@@ -111,17 +113,24 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
 						id="comment_section">
 						<div class="media">
-							<div class="media-left">
+						   
+ 							<div class="media-left" th:if="${session.loginuser!=null}">
 								<a href="#"> <img class="media-object img-rounded"
-									th:src="${question.eu.avatar_url}">
+									th:src="${session.loginuser.avatar_url}">
 								</a>
 							</div>
+						  <div class="media-left" th:if="${session.loginuser==null}">
+							      <a href="#"> <img class="media-object img-rounded"
+									src="https://localhost:8080/BPJprojects/img/defaultuser.png">
+								</a>
+							</div>  
 							<div class="media-body">
-								<h4 class="media-heading">
-									<span th:text="${question.eu.login}"></span>
+								<h4 class="media-heading" th:if="${session.loginuser!=null}">
+									<span th:text="${session.loginuser.login}"></span>
 								</h4>
 
 							</div>
+							
 						</div>
 						<input type="hidden" id="questionid" th:value="${question.id}" />
 						<textarea class="form-control comment" rows="9"
@@ -163,6 +172,8 @@
 		<div th:if="${publisherror!=null}" class="alert alert-warning waring"
 			th:text="${publisherror}" role="alert"></div>
 	</div>
-
+<script>
+ 
+            </script>
 </body>
 </html>

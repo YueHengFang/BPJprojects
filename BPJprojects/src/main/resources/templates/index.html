@@ -41,7 +41,7 @@
 						<h4 class="media-heading">
 							<a th:href="@{'question/'+${ques.id}}" th:text="${ques.title}"></a>
 						</h4>
-						<span th:text="${ques.description}">河北省嘎嘎肺结核三大关键看会电视观看京华</span><br />
+						<span th:text="${ques.brief_introduction}">河北省嘎嘎肺结核三大关键看会电视观看京华</span><br />
 						<span class="text-des"><span
 							th:text="${ques.comment_count}"></span>个回复 * <span
 							th:text="${ques.view_count}"></span>个浏览 * 发布于<span
@@ -50,20 +50,20 @@
 				</div>
 				<nav aria-label="Page navigation">
 					<ul class="pagination">
-						<li><a th:href="@{'?page=1'}" aria-label="Previous"
+						<li><a th:href="@{/(page=1,search=${search})}" aria-label="Previous"
 							th:if="${Pagination.showFirstPage}"> <span
 								aria-hidden="true">&lt;&lt;</span>
-						</a> <a th:href="@{'?page='+${Pagination.page-1}}" aria-label="Next"
+						</a> <a th:href="@{/(page=${Pagination.page-1},search=${search})}" aria-label="Next"
 							th:if=${Pagination.showPrevious}> <span aria-hidden="true">&lt;</span>
 						</a></li>
 						<li th:each="page : ${Pagination.pages}"
 							th:class="${Pagination.page==page}? 'active' : ''"><a
-							th:href="@{'?page='+${page}}" th:text="${page}"></a></li>
+							th:href="@{/(page=${page},search=${search})}" th:text="${page}"></a></li>
 
-						<li><a th:href="@{'?page='+${Pagination.page+1}}"
+						<li><a th:href="@{/(page=${Pagination.page+1},search=${search})}"
 							aria-label="Next" th:if="${Pagination.showNext}"> <span
 								aria-hidden="true">&gt;</span>
-						</a> <a th:href="@{'?page='+${Pagination.countpage}}"
+						</a> <a th:href="@{/(page=${Pagination.countpage},search=${search})}"
 							aria-label="Next" th:if="${Pagination.showEndPage}">
 								<!-- --> <span aria-hidden="true">&gt;&gt;</span>
 						</a></li>

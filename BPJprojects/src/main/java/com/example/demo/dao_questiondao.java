@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface dao_questiondao {
    public void insertquestion(entity_question eq);
-   public List<entity_question> equestion(@Param("page")int pagenum,@Param("size")int size);
-   public int count();
+   public List<entity_question> equestion(@Param("page")int pagenum,@Param("size")int size,@Param("search")String search);
+   public int count(String search);
    public int countbyuserid(String userid);
    public entity_question getbyid(String id);
    public int update(entity_question eq);

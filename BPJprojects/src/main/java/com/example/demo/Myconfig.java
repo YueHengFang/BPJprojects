@@ -21,6 +21,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 	{
 		return new interceptor_loginintercepter();
 	}
+	@Bean 
+	public interceptor_addinterceptor ia()
+	{
+		return new interceptor_addinterceptor();
+	}
 	
     @Bean
 	public WebMvcConfigurer conf()
@@ -30,14 +35,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 		public void addViewControllers(ViewControllerRegistry registry)
 		{
 			 
-			registry.addViewController("/publish").setViewName("publish");
+	//		registry.addViewController("/publish").setViewName("publish");
 			
  		}
 		public void addInterceptors(InterceptorRegistry registry) {
-			registry.addInterceptor(iu()).addPathPatterns("/");
+ 			registry.addInterceptor(iu()).addPathPatterns("/");
 			registry.addInterceptor(il()).addPathPatterns("/publish");
 			registry.addInterceptor(il()).addPathPatterns("/profile/question");
-			//registry.addInterceptor(il()).addPathPatterns("/comment");
+ 			registry.addInterceptor(ia());
+
 		}
 		
 	  };

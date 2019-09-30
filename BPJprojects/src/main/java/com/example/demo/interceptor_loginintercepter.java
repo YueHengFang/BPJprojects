@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +13,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class interceptor_loginintercepter implements HandlerInterceptor {
 	@Autowired	
 	private dao_userdao du;
+ 
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-  		   Cookie[] cok=request.getCookies();
+    		   Cookie[] cok=request.getCookies();
 		    if(cok!=null)
 		    {
 		    	String id=null;
@@ -34,6 +37,7 @@ public class interceptor_loginintercepter implements HandlerInterceptor {
 				     {
 				    	 //代表已登陆
 					     request.getSession().setAttribute("login",s);
+ 
 			 		     id=null;
 	 				     return true;
 				     }

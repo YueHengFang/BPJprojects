@@ -21,10 +21,11 @@
 	<div th:insert="~{navgition :: nav}"></div>
 	<div class="container-fluid question_publish">
 		<div class="row profile">
-			<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+			<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${section=='Questions'}">
 				<h2>
 					<span th:text="${section}"></span>
 				</h2>
+				
 				<div class="media" th:each="ques : ${Pagination.eq}">
 					<div class="media-left">
 						<a href="#"> <img class="media-object img-rounded"
@@ -42,7 +43,8 @@
 							th:text="${#dates.format(ques.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span></span>
 					</div>
 				</div>
-				<nav aria-label="Page navigation">
+				
+								 <nav aria-label="Page navigation">
 					<ul class="pagination">
 						<li><a th:href="@{'?page=1'}" aria-label="Previous"
 							th:if="${Pagination.showFirstPage}"> <span
@@ -64,6 +66,43 @@
 					</ul>
 				</nav>
 			</div>
+		  	<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${section=='Reply'}">
+			    <h2>
+					<span th:text="${section}"></span>
+				</h2>
+				
+				<div class="media" th:each="notifytion : ${Pagination.eq}">
+ 					 <h4 class="media-heading">
+					    <span th:text="${notifytion.notifyname+' '+notifytion.typevalue}"></span>
+   					    <a th:href="@{'/notifycation/'+${notifytion.id}}" th:text="${' '+notifytion.commttypename}"></a>
+   					    
+ 					 </h4>
+ 					    <span class="label label-danger" th:if="${notifytion.status==1}" th:text="UnRead"></span>
+ 					 <br/>
+				</div>
+				 <nav aria-label="Page navigation">
+					<ul class="pagination">
+						<li><a th:href="@{'?page=1'}" aria-label="Previous"
+							th:if="${Pagination.showFirstPage}"> <span
+								aria-hidden="true">&lt;&lt;</span>
+						</a> <a th:href="@{'?page='+${Pagination.page-1}}" aria-label="Next"
+							th:if=${Pagination.showPrevious}> <span aria-hidden="true">&lt;</span>
+						</a></li>
+						<li th:each="page : ${Pagination.pages}"
+							th:class="${Pagination.page==page}? 'active' : ''"><a
+							th:href="@{'?page='+${page}}" th:text="${page}"></a></li>
+
+						<li><a th:href="@{'?page='+${Pagination.page+1}}"
+							aria-label="Next" th:if="${Pagination.showNext}"> <span
+								aria-hidden="true">&gt;</span>
+						</a> <a th:href="@{'?page='+${Pagination.countpage}}"
+							aria-label="Next" th:if="${Pagination.showEndPage}">
+								<!-- --> <span aria-hidden="true">&gt;&gt;</span>
+						</a></li>
+					</ul>
+				</nav>
+			</div> 
+ 
 			<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
 				<div class="list-group section">
 					<a href="/BPJprojects/profile/question" class="list-group-item"
@@ -71,7 +110,7 @@
 						Question</a> <a href="/BPJprojects/profile/Reply"
 						class="list-group-item"
 						th:classappend="${section=='Reply'}?'active':''">Latest Reply<span
-						class="badge">14</span></a>
+						class="badge" th:text="${notread}" th:if="${notread>0}">14</span></a>
 				</div>
 
 

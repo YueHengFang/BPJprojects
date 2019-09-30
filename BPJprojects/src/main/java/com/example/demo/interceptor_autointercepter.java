@@ -1,4 +1,6 @@
 package com.example.demo;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +13,12 @@ public class interceptor_autointercepter implements HandlerInterceptor{
 	
 	@Autowired	
 	private dao_userdao du;
+	@Autowired
+	private service_notityservice sns;
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
- 	    Cookie[] cok=request.getCookies();
+  	    Cookie[] cok=request.getCookies();
 	    if(cok!=null)
 	    {
 	    	String id=null;
@@ -32,9 +36,11 @@ public class interceptor_autointercepter implements HandlerInterceptor{
 			     entity_user s=du.getfindbyuser(id);
 			     if(s!=null)
 			     {
+
 			    	 //代表已登陆
 				     request.getSession().setAttribute("login",s);
-		 		     id=null;
+ 					
+				     id=null;
  				     return true;
 			     }
 			      

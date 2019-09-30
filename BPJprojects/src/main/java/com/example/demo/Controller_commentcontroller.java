@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class Controller_commentcontroller {
-   
-	
- 
- 	
+    	
 	@Autowired
 	private service_commentService scs;
 	
@@ -49,7 +46,7 @@ public class Controller_commentcontroller {
 		    ec.setLike_count(0);
  	 		ec.setId(UUID.randomUUID().toString());
  	 		ec.setCommentcount(0);
-  	 	    scs.insert(ec);
+  	 	    scs.insert(ec,e.getLogin());
   	 		Map<Object,Object> objh=new HashMap<Object,Object>();	 		
   	 		objh.put("message","success");
  		 

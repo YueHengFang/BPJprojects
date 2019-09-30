@@ -21,22 +21,21 @@ public class controller_indexcontroller {
 	@Autowired
 	private service_questionservice sqs;
 	
-	
-	
     @RequestMapping("/")
-    public String index(Model model,@RequestParam(name="page",defaultValue="1") Integer page,@RequestParam(name="size",defaultValue="5")Integer size)
+    public String index(Model model,@RequestParam(name="page",defaultValue="1") Integer page,@RequestParam(name="size",defaultValue="5")Integer size,@RequestParam(name="search",required=false,defaultValue="")String search)
     {
-        entity_PaginationDTO epO=sqs.eq(page,size);
-    	
-    	model.addAttribute("Pagination",epO);
+        entity_PaginationDTO<entity_questionDTO> epO=sqs.eq(page,size,search);
+       
         
+    	model.addAttribute("Pagination",epO);
+    	model.addAttribute("search",search);
     	return "index";
     }
-    
     @RequestMapping("/exitlogin")
     public String exitlogin(HttpServletRequest request,HttpServletResponse response)
     {
     	request.getSession().removeAttribute("login");
+    	request.getSession().removeAttribute("loginuser");
     	 
     	Cookie cok=new Cookie("id",null);
     	 

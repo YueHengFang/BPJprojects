@@ -15,7 +15,27 @@
 	type="application/javascript"></script>
 <script src="https://localhost:8080/BPJprojects/js/publish.js"
 	type="application/javascript"></script>
-
+<script src="https://localhost:8080/BPJprojects/js/editormd.min.js"
+	type="application/javascript"></script>
+<script src="https://localhost:8080/BPJprojects/css/editormd.min.css"
+	type="application/javascript"></script>
+<script src="https://localhost:8080/BPJprojects/js/lib"
+	type="application/javascript"></script>
+	<script type="text/javascript"src="https://localhost:8080/BPJprojects/js/ckeditor/ckeditor.js"></script>
+	    <script type="text/javascript" src="https://localhost:8080/BPJprojects/js/ue/umeditor.config.js"></script>
+    <script type="text/javascript" src="https://localhost:8080/BPJprojects/js/ue/umeditor.min.js"></script>
+<!--         <script type="text/javascript" src="https://localhost:8080/BPJprojects/script/ue/lang/zh-cn.js"></script> 
+ -->   <!--  <link rel="stylesheet" href="https://localhost:8080/BPJprojects/styles/icon.css"/>
+        <link rel="stylesheet" href="https://localhost:8080/BPJprojects/styles/main.css"/> -->
+      <link href="https://localhost:8080/BPJprojects/styles/umeditor.min.css" type="text/css" rel="stylesheet">
+<!--  <link rel="stylesheet" href="http://localhost:8080/BPJprojects/styles/prettify.css"></link>
+ --><!--   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://localhost:8080/BPJprojects/ico/favico-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://localhost:8080/BPJprojects/ico/favico-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://localhost:8080/BPJprojects/ico/favico-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="https://localhost:8080/BPJprojects/ico/favico-57-precomposed.png">
+        <link rel="shortcut icon" href="https://localhost:8080/BPJprojects/ico/favico.png">
+        <link rel="shortcut icon" href="https://localhost:8080/BPJprojects/ico/favico.ico"> -->
+ 
 </head>
 <body>
 	<div th:insert="~{navgition :: nav}"></div>
@@ -38,15 +58,16 @@
 					</div>
 					<div class="form-group">
 						<label for="title">Question Supplement</label>
-						<textarea name="des" id="des" class="form-control"
+						  <textarea name="des" id="des" class="form-control"
 							th:text="${des}" cols="38" rows="10"></textarea>
+ 
 					</div>
 					<div class="form-group">
 						<label for="title">Add Tag</label> <input type="text"
 							class="form-control" id="tag" name="tag" th:value="${tag}"
 							placeholder="Please enter Tag and use’,‘separate"
-							pattern=".{6,30}" required
-							oninvalid="setCustomValidity('Please write in this field,String length range from 6 to 30')"
+							pattern=".{30,120}" required
+							oninvalid="setCustomValidity('Please write in this field,String length range from 30 to 120')"
 							oninput="setCustomValidity('')" onfocus="showselectTag()" />
 
 						<div class="taglike">
@@ -54,18 +75,20 @@
 							<div>
 
 								<!-- Nav tabs -->
-							  	<ul role="tablist" class="nav nav-tabs">
+								<ul role="tablist" class="nav nav-tabs">
 									<li role="presentation" class="active"><a href="#home"
-										aria-controls="home" role="tab" data-toggle="tab">country</a></li>
-									<li role="presentation"><a href="#profile" data-toggle="tab" aria-controls="profile">topic</a></li>  
-									<li role="presentation"><a href="#messages"
-										aria-controls="messages" role="tab" data-toggle="tab">content</a></li>
-									<li role="presentation"><a href="#political"
-										aria-controls="settings" role="tab" data-toggle="tab">supplement</a></li>
-								</ul>   
-		 
+										aria-controls="home" role="tab" data-toggle="tab"
+										class="facta">country</a></li>
+									<li role="presentation"><a href="#profile"
+										data-toggle="tab" aria-controls="profile" class="facta">topic</a></li>
+									 
+								</ul>
+
 								<!-- Tab panes -->
-							   <div class="tab-content">
+								<div class="tab-content">
+
+
+
 									<div role="tabpanel" class="tab-pane fade in active tabs1"
 										id="home">
 										<span th:each="tagt:${tags}"> <span
@@ -74,94 +97,201 @@
 											th:each="tgst,stat:${tagt.ShowTags}"
 											th:data-tagvalue="${tagt.valueTags[stat.index]}"
 											onclick='selectTag(this)'><span
-												class="glyphicon glyphicon-tags"></span><span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span></span>
-
-
+												class="glyphicon glyphicon-tags"></span><span
+												th:text="${'&nbsp;&nbsp;'+tgst}"></span></span>
 										</span>
 
-	</div>
 
 
-										
-								
+									</div>
+
+
+
+
 									<div role="tabpanel" class="tab-pane fade in tabs2"
 										id="profile">
-										<span th:each="tagt:${tags}">
-													  <span
-											class="label label-info tabs2a"
+										<span th:each="tagt:${tags}"> <!-- <span th:text="${tagt.Categoryname}"></span> -->
+											<span class="label label-info tabs2a"
 											th:if="${tagt.Categoryname=='topic'}"
 											th:each="tgst,stat:${tagt.ShowTags}"
 											th:data-tagvalue="${tagt.valueTags[stat.index]}"
 											onclick='selectTag(this)'><span
-												class="glyphicon glyphicon-tags"></span><a th:href="${'#'+tagt.valueTags[stat.index]}" data-toggle="tab"><span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span></a></span>
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
 
-                                         
+
 										</span>
-				 
 									</div>
-									<!-- <span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span> -->
-									<div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="political">
-									       <span>123456789</span>
-									  </div>
-									  </div>
-									
-					 <!-- 	<div th:each="tagt:${tags}">
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="political">	
-									  <span th:each="tagt:${tags}">
-													  <span
+
+
+
+
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="political">
+										<span th:each="tagt:${tags}"> <span
 											class="label label-info tabs2a"
 											th:if="${tagt.Categoryname=='political'}"
 											th:each="tgst,stat:${tagt.ShowTags}"
 											th:data-tagvalue="${tagt.valueTags[stat.index]}"
 											onclick='selectTag(this)'><span
-												class="glyphicon glyphicon-tags"></span><span  th:text="${'&nbsp;&nbsp;'+tgst}" ></span></span>
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
 
-                                         
-										</span>			
+
+										</span> <span class="label label-info tabs2a">  <span onclick="returntag('political')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Delete selected in this label And Return
+													to the previous level</a></span>  
+													 <!--  <span onclick="returntag('political')">&nbsp;&nbsp;Return
+													to the previous level</span>  -->
+										</span>
 									</div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="legal">				
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="legal">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='legal'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
+
+
+										</span> <span class="label label-info tabs2a">  <span onclick="returntag('legal')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Return
+													to the previous level</a></span>  
+													  
+										</span>
 									</div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="military">				
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="military">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='military'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
+
+
+										</span>  <span class="label label-info tabs2a">  <span onclick="returntag('military')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Return
+													to the previous level</a></span>  
+													  
+										</span>
 									</div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="Technology">				
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="Technology">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='Technology'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
+
+
+										</span>  <span class="label label-info tabs2a">  <span onclick="returntag('Technology')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Return
+													to the previous level</a></span>  
+													  
+										</span>
 									</div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="society">				
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="society">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='society'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
+
+
+										</span>  <span class="label label-info tabs2a">  <span onclick="returntag('society')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Return
+													to the previous level</a></span>  
+													  
+										</span>
 									</div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="economic">				
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="economic">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='economic'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
+
+
+										</span>  <span class="label label-info tabs2a">  <span onclick="returntag('economic')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Return
+													to the previous level</a></span>  
+													  
+										</span>
 									</div>
-									<div role="tabpanel" class="tab-pane fade in tabs3"
-									  id="entertainment">				
+									<div role="tabpanel" class="tab-pane fade in tabsother"
+										id="entertainment">
+										<span th:each="tagt:${tags}"> <span
+											class="label label-info tabs2a"
+											th:if="${tagt.Categoryname=='entertainment'}"
+											th:each="tgst,stat:${tagt.ShowTags}"
+											th:data-tagvalue="${tagt.valueTags[stat.index]}"
+											onclick='selectTag(this)'><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="${'#'+tagt.valueTags[stat.index]}"
+												data-toggle="tab"><span th:text="${'&nbsp;&nbsp;'+tgst}"></span></a></span>
+
+
+										</span>  <span class="label label-info tabs2a">  <span onclick="returntag('entertainment')"><span
+												class="glyphicon glyphicon-tags"></span><a
+												th:href="@{'#profile'}" data-toggle="tab" >&nbsp;&nbsp;Return
+													to the previous level</a></span>  
+													  
+										</span>
 									</div>
-								</div>   --> 
-									
+
+
+
+
 
 
 								</div>
-								
-                             								
-								
+
+
+
 
 							</div>
-						</div> 
+						</div>
 						<!--   -->
-<!--   <div class="tab-content">
+						<!--   <div class="tab-content">
   <a href="#home" data-toggle="tab">a</a>
     <div role="tabpanel" class="tab-pane" id="home"><a href="#messages" data-toggle="tab">a</a></div>
     <div role="tabpanel" class="tab-pane" id="profile">b</div>
     <div role="tabpanel" class="tab-pane" id="messages">c</div>
     <div role="tabpanel" class="tab-pane" id="settings">d</div>
   </div>  -->
-						
-						
-						
+
+
+
 					</div>
 					<button type="submit" class="btn btn-success publish">Publish</button>
 				</form>
@@ -175,8 +305,15 @@
 				client [Sweep, Sweep]. POS Machine Card Brushing.
 			</div>
 		</div>
+			
+		 
 		<div th:if="${publisherror!=null}" class="alert alert-warning waring"
 			th:text="${publisherror}" role="alert"></div>
 	</div>
+	<script>
+               
+                // instance, using default configuration.
+                CKEDITOR.replace( 'des' );
+            </script>
 </body>
 </html>

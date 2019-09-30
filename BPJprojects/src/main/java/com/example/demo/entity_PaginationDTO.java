@@ -6,8 +6,8 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class entity_PaginationDTO {
-  private List<entity_questionDTO> eq;
+public class entity_PaginationDTO<T> {
+  private List<T> eq;
   private boolean showPrevious;
   private boolean showFirstPage;
   private boolean showEndPage;
@@ -92,6 +92,8 @@ public class entity_PaginationDTO {
     	this.showEndPage=true;
     }
 	this.page=page;
+	
+	 
 	
 	 
   }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao_notitydao">
+  <insert id="insertnotity">
+       insert into notity values(#{id},#{notifier},#{receiver},#{committypeid},#{type},#{gmt_create},#{status},#{notifyname},#{commttypename})
+  </insert>
+  <select id="querynotify"  resultType="com.example.demo.entity_notity">
+       select * from notity where receiver=${receiverid} order by gmt_create DESC limit #{page},#{size}
+  </select>
+    <select id="countbyuserid" resultType="int">
+     select count(1) from notity where receiver=#{userid}
+  </select>
+  <select id="selectbyid" resultType="com.example.demo.entity_notity">
+      select * from notity where id=#{id}
+  </select>
+  <select id="queryAll" resultType="com.example.demo.entity_notity">
+     select * from notity;
+  </select>
+  <update id="readtrue">
+       update notity set status=0 where id=#{userid};
+  </update>
+</mapper>

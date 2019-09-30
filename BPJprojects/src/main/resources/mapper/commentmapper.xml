@@ -16,6 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        select * from comment where commentparentid=#{parentid} order by gmt_modify ASC
   </select>
   <update id="countaddcomment">
-      update comment set commentcount=#{commentcount} where id=#{id}
+       update comment set commentcount=#{commentcount} where id=#{id}
   </update>
 </mapper>
