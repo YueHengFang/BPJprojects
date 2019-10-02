@@ -49,28 +49,22 @@ public class service_questionservice {
 		  }
 		int pagec=size*(page-1);
   		List<entity_question> eq=dqd.equestion(pagec,size,search);
-		List<entity_questionDTO> eqDTO=new ArrayList<entity_questionDTO>();
-         entity_PaginationDTO<entity_questionDTO> epo=new entity_PaginationDTO<entity_questionDTO>();
-		for(entity_question e:eq)
-        {
-         	entity_user eu=dud.getfindbyuser(e.getCreaterid());       
-         	entity_questionDTO equestion=new entity_questionDTO();
-        	BeanUtils.copyProperties(e,equestion);
-        	equestion.setBrief_introduction(countbrief_introduction(Util_HtmlUtil.delHTMLTag(equestion.getDescription())));
-             equestion.setEu(eu);
-              eqDTO.add(equestion);
-             
-        }
-		epo.setEq(eqDTO);
-		
-		 
+        List<entity_questionDTO> eqDTO=eq.stream().map(eqm->{
+    	   entity_questionDTO eqd=new entity_questionDTO(); 
+    	   entity_user eu=dud.getfindbyuser(eqm.getCreaterid());
+    	   BeanUtils.copyProperties(eqm,eqd);
+    	   eqd.setEu(eu);
+    	   return eqd;
+       }).collect(Collectors.toList());
+		entity_PaginationDTO<entity_questionDTO> epo=new entity_PaginationDTO<entity_questionDTO>();
+		epo.setEq(eqDTO); 
 		epo.setPagination(countpage, page);
-		
    		return epo;
 	}
 	
 	public entity_PaginationDTO<entity_questionDTO> listthisuser(String userid,int page,int size)
 	{
+	   System.out.println(userid+"---");
 		int totalcount=dqd.countbyuserid(userid);
 		int countpage=0;
 		  if(totalcount%size==0)
@@ -91,20 +85,17 @@ public class service_questionservice {
 		  }
 		int pagec=size*(page-1);
 		entity_user eu=dud.getfindbyuser(userid);
-		List<entity_question> eqe=dqd.equestion(pagec,size,null);
-        entity_PaginationDTO<entity_questionDTO> epo=new entity_PaginationDTO<entity_questionDTO>();
-        List<entity_questionDTO> eqd=new ArrayList<entity_questionDTO>();
-		for(entity_question eqs:eqe)
-		{
-			entity_questionDTO equestion=new entity_questionDTO();
-        	BeanUtils.copyProperties(eqs,equestion);
-        	equestion.setEu(eu);
-        	eqd.add(equestion);
-        	 
-		}
-         epo.setEq(eqd);
+		List<entity_question> eqe=dqd.equestion(pagec,size,"");
+         entity_PaginationDTO<entity_questionDTO> epo=new entity_PaginationDTO<entity_questionDTO>();
+         List<entity_questionDTO> eqd=eqe.stream().map(eqsw->{
+			 entity_questionDTO equestion=new entity_questionDTO();
+ 			 BeanUtils.copyProperties(eqsw,equestion);
+			 equestion.setEu(eu);
+ 			 return equestion;
+		 }).collect(Collectors.toList());
+          epo.setEq(eqd);
          epo.setPagination(countpage, page);
- 		return epo;
+  		return epo;
 	}
 	public entity_questionDTO getquestionshow(String id)
 	{
@@ -121,21 +112,7 @@ public class service_questionservice {
 		 }
  		 return eqd;
 	}
-    public String countbrief_introduction(String context)
-    {
-       	if(context.length()<=1500)
-    	{
-    		return context;
-    	}
-    	else if(context.length()<=7500)
-    	{
-    		String conte=context.substring(0,context.length()/5)+"...";
-            return conte;		
-    	}else {
-      		String conte=context.substring(0,60)+"......";
-    		return conte;
-    	}
-    }
+ 
     
 	public void Update(entity_question eq,Model model)
 	{

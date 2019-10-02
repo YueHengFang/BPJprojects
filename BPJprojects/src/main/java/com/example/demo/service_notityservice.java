@@ -45,15 +45,15 @@ public class service_notityservice {
  		  }
   		int pagec=size*(page-1);
   		List<entity_notity> en=dnd.querynotify(userid, pagec, size);
-  		List<entity_notifyDTO> end=new ArrayList<entity_notifyDTO>();
-          for(entity_notity e:en)
-         {
-           entity_notifyDTO rdto=new entity_notifyDTO();
-            BeanUtils.copyProperties(e, rdto);
-            
-            rdto.setTypevalue(enum_notifyenum.nameoftype(e.getType()));
-            end.add(rdto);
-         }
+  		List<entity_notifyDTO> end=en.stream().map(ens->{
+        	        entity_notifyDTO ends=new entity_notifyDTO();
+        	        BeanUtils.copyProperties(ens,ends);
+        	        ends.setTypevalue(enum_notifyenum.nameoftype(ens.getType()));
+        	       return ends;        
+          }).collect(Collectors.toList());
+  		
+ 
+  		
   		
  		entity_PaginationDTO<entity_notifyDTO> epd=new entity_PaginationDTO<entity_notifyDTO>();
   		epd.setEq(end);

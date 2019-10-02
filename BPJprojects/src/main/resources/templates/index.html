@@ -41,8 +41,7 @@
 						<h4 class="media-heading">
 							<a th:href="@{'question/'+${ques.id}}" th:text="${ques.title}"></a>
 						</h4>
-						<span th:text="${ques.brief_introduction}">河北省嘎嘎肺结核三大关键看会电视观看京华</span><br />
-						<span class="text-des"><span
+ 						<span class="text-des"><span
 							th:text="${ques.comment_count}"></span>个回复 * <span
 							th:text="${ques.view_count}"></span>个浏览 * 发布于<span
 							th:text="${#dates.format(ques.gmt_create,'yyyy-MM-dd HH:mm:ss')}"></span></span>

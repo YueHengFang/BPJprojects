@@ -8,7 +8,6 @@ public class entity_questionDTO {
 	private String id;
     private String title;
     private String description;
-    private String brief_introduction;
     private Long gmt_create;
     private Long gmt_modify;
     private String createrid;

@@ -240,10 +240,7 @@ public class service_TagService {
         			break;
         		}
         	}
- 
-        	String[] tags=tag.split(",");
-         	 
-        	
+        	String[] tags=tag.split(",");    
         	for(int i=0;i<tags.length;i++)
         	{
         		for(int j=0;j<delete.size();j++)
@@ -290,7 +287,7 @@ public class service_TagService {
      try {
     		List<entity_TagDTO> etd=getTag();
         	Map<String,List<String>> ma=new HashMap<String,List<String>>();
-        
+       //1.去除重复
         	//String tags[]=tag.split(",");
         	String[] tags=tag.split(",");
         	 ArrayList<String> list = new ArrayList<String>();
@@ -299,6 +296,8 @@ public class service_TagService {
                 if (!list.contains(tags[i]))
                     list.add(tags[i]);
             }
+     //--      
+        //2.将内容添加到map集合
             String[] taga=list.toArray(new String[0]);
        	 
              if(taga.length!=tags.length)
@@ -309,8 +308,10 @@ public class service_TagService {
         	{
         		ma.put(etd.get(i).getCategoryname(),etd.get(i).getValueTags());
          	}
-        	Set<String> catekey=ma.keySet();
-        	List<String> catekeylist=new ArrayList<String>(catekey);
+         
+       //-- 	
+        	
+        	List<String> catekeylist=ma.entrySet().stream().map(et->et.getKey()).collect(Collectors.toList());
         	for(int i=0;i<tags.length;i++)
         	{
         		for(int j=0;j<catekeylist.size();j++)
@@ -324,12 +325,10 @@ public class service_TagService {
         					break;
         				  }else if(j==catekeylist.size()-1)
         				  {
-        					 
         					  return false;
         				  }
         					  
-        			  }
-        			
+        			  }	
         		}
          	}
         	List<String> con=ma.get("country");
@@ -345,7 +344,7 @@ public class service_TagService {
         		}
         	}
         	
-        	
+          tags=Arrays.stream(tags).filter(f->f!=null).toArray(String[]::new);
         	
           	ma.remove(catekeylist.get(0));
          	catekeylist.remove(0);
@@ -359,7 +358,7 @@ public class service_TagService {
          	{
                for(int j=0;j<tags.length;j++)
                {
-             	      if(tags[j]!=null&&catekeylist.get(i).equals(tags[j]))
+             	      if(catekeylist.get(i).equals(tags[j]))
             	      {
              	    	  checkout.add(tags[j]);
             	    	  j=tags.length-1;
@@ -402,7 +401,7 @@ public class service_TagService {
         	    	   {
         	    		   for(int s=0;s<tags.length;s++)
         	    		   {
-        	    			    if(tags[s]!=null&&tags[s].equals(ls.get(m)))
+        	    			    if(tags[s].equals(ls.get(m)))
         	    			    {
         	    			    	s=tags.length-1;
         	    			    	m=ls.size()-1;   	    			    	
@@ -431,10 +430,9 @@ public class service_TagService {
     		 for(int j=0;j<tags.length;j++)
     		 {
     			 for(String t:tag){
-    	            if(tags[j]!=null&&t.equals(tags[j]))
+    	            if(t.equals(tags[j]))
     	            {
-       				 System.out.println(t+"---"+tags[j]);
-    	            	return false;
+     	            	return false;
     	            }
     			 }
     		 }

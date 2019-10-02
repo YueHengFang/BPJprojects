@@ -23,7 +23,7 @@ public class controller_ProfileController {
 	@RequestMapping("/profile/{action}")
 	public String profile(@PathVariable(name="action")String action,@RequestParam(name="page",defaultValue="1") Integer page,@RequestParam(name="size",defaultValue="5")Integer size,HttpServletRequest hsr,Model model)
 	{
- 			 List<entity_notity> en=sns.queryall(((entity_user)(hsr.getSession().getAttribute("login"))).getId());
+  			 List<entity_notity> en=sns.queryall(((entity_user)(hsr.getSession().getAttribute("login"))).getId());
  
 			 int count=0;
  
@@ -39,6 +39,7 @@ public class controller_ProfileController {
 		{
 			model.addAttribute("section","Questions");
 		    model.addAttribute("sectionName","My Question");
+			 
 		   //  entity_user eu=(entity_user)hsr.getSession().getAttribute("login");
 			entity_PaginationDTO<entity_questionDTO> epdto=sq.listthisuser(((entity_user)hsr.getSession().getAttribute("login")).getId(), page, size);
  			model.addAttribute("Pagination",epdto);
