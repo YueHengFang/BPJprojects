@@ -53,14 +53,14 @@ public class controller_AuthorizeController {
 		ADTO.setClient_id(clientid);
 		ADTO.setClient_secret(clientsecret);
 		String acesstoken=gpr.getAccessToken(ADTO);
+		System.out.println("acesstoken"+acesstoken);
  	    entity_user eu=gpr.getuser(acesstoken); 
- 	  
-  	    if(eu!=null)
+    	    if(eu!=null)
  	    {
   	 	    eu.setToken(acesstoken);
    	 	    eu.setGmt_creat(System.currentTimeMillis());
  	 	    eu.setGmt_modify(eu.getGmt_creat());
- 	 	    dud.deleteuser(eu.getId());
+  	 	    dud.deleteuser(eu.getId());
   	 	    dud.insertuser(eu); 	
  	    	//登陆成功写cookie和session
  	 	    response.addCookie(new Cookie("id",eu.getId()));
